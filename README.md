@@ -1,2 +1,4 @@
 # dotfiles
-dotfiles
+- .bashrc
+- .bash_profile
+- .vimrc
