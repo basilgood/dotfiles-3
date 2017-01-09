@@ -14,10 +14,6 @@ function! IncludePath(path)
   endif
 endfunction
 
-" ~/.pyenv/shims を $PATH に追加する
-" これを行わないとpythonが正しく検索されない
-" IncludePath(expand("~/.pyenv/shims"))
-
 
 "NeoBundle Scripts-----------------------------
 if &compatible
