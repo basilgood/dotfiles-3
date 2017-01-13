@@ -6,7 +6,7 @@ fi
 # python
 export PYENV_ROOT=$HOME/.pyenv
 eval "$(pyenv init -)"
-
+eval "$(pyenv virtualenv-init -)"
 
 # ruby
 eval "$(rbenv init -)"
@@ -18,7 +18,6 @@ HISTTIMEFORMAT='%Y-%m-%dT%T%z '
 export PATH="$PATH:/usr/local/Cellar/elixir/1.3.2/bin"
 
 # node
-# export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=/usr/local/var/nodebrew/current/bin:$PATH
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
@@ -41,4 +40,3 @@ source /usr/local/etc/bash_completion.d/git-completion.bash
 
 GIT_PS1_SHOWDIRTYSTATE=true
 export PS1='\W:\[\033[31m\]$(__git_ps1 [%s])\[\033[34m\] $ \033[37m\]'
-# export PS1='\h\[\033[31m\]@\W\[\033[31m\]:$(__git_ps1 [%s])\[\033[34m\] $ \033[37m\]'
