@@ -40,5 +40,5 @@ source /usr/local/etc/bash_completion.d/git-prompt.sh
 source /usr/local/etc/bash_completion.d/git-completion.bash
 
 GIT_PS1_SHOWDIRTYSTATE=true
-export PS1='\W\[\033[31m\]:$(__git_ps1 [%s])\[\033[34m\] $ \033[37m\]'
+export PS1='\W:\[\033[31m\]$(__git_ps1 [%s])\[\033[34m\] $ \033[37m\]'
 # export PS1='\h\[\033[31m\]@\W\[\033[31m\]:$(__git_ps1 [%s])\[\033[34m\] $ \033[37m\]'
