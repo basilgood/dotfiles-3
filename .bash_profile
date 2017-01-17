@@ -12,7 +12,7 @@ eval "$(pyenv virtualenv-init -)"
 eval "$(rbenv init -)"
 
 # register command with date.
-HISTTIMEFORMAT='%Y-%m-%dT%T%z '
+HISTTIMEFORMAT='%d/%m/%Y, %T '
 
 # elixir path
 export PATH="$PATH:/usr/local/Cellar/elixir/1.3.2/bin"
