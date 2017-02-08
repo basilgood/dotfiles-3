@@ -63,28 +63,7 @@ nnoremap <silent> [unite]n :Unite<Space>file/new<CR>
 
 filetype plugin indent on
 
-"#####kaoriya#####
-if has('kaoriya')
-    set noundofile
-    let g:no_vimrc_example=0
-    let g:vimrc_local_finish=1
-    let g:gvimrc_local_finish=1
-
-    "$VIM/plugins/kaoriya/autodate.vim
-    let plugin_autodate_disable  = 1
-    "$VIM/plugins/kaoriya/cmdex.vim
-    let plugin_cmdex_disable     = 1
-    "$VIM/plugins/kaoriya/dicwin.vim
-    let plugin_dicwin_disable    = 1
-    "$VIMRUNTIME/plugin/format.vim
-    let plugin_format_disable    = 1
-    "$VIM/plugins/kaoriya/hz_ja.vim
-    let plugin_hz_ja_disable     = 1
-    "$VIM/plugins/kaoriya/scrnmode.vim
-    let plugin_scrnmode_disable  = 1
-    "$VIM/plugins/kaoriya/verifyenc.vim
-    let plugin_verifyenc_disable = 1
-endif
+" --------------------------------------------------------------------------------------- dein周りはここまで
 
 "#####初期設定#####
 syntax on "コードの色分け
@@ -131,71 +110,4 @@ if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
 endif
 
-" let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-
-"#####Go設定#####
-" vim-go
-"" mapping
-""" go runのキーマッピング
-au FileType go nmap gr (go-run)
-""" go testのキーマッピング
-au FileType go nmap gt (go-test)
-"" highlight
-let g:go_hightlight_functions = 1
-let g:go_hightlight_methods = 1
-let g:go_hightlight_structs = 1
-let g:go_hightlight_interfaces = 1
-let g:go_hightlight_operators = 1
-let g:go_hightlight_build_constraints = 1
-"" GoFmt時にインポートするパッケージを整理(GoFmtはファイル書き込み時に自動的に実行される)
-let g:go_fmt_command = "goimports"
-
-"#####Python設定#####
-"let s:python2home = $PYENV_ROOT . '/versions/2.7.12'
-"let s:python2dll  = $PYENV_ROOT . '/versions/2.7.12/lib/libpython2.7.dylib'
-"let s:python3home = $PYENV_ROOT . '/versions/3.5.2'
-"let s:python3dll  = $PYENV_ROOT . '/versions/3.5.2/lib/libpython3.5ma.dylib'
-
-"&pythonthreedll = s:python3dll
-"$PYTHONHOME     = s:python3home
-"execute 'python3 import sys'
-
-"&pythondll  = s:python2dll
-"$PYTHONHOME = s:python2home
-"execute 'python import sys'
-
-" vim-pyenvのautocmd周りの設定開始
-"function! s:jedi_auto_force_py_version() abort 
-""   let major_version = pyenv#python#get_internal_major_version()
-"  " Add start
-"    if major_version == 2
-"        let $PYTHONHOME = s:python2home
-"    elseif major_version == 3
-"        let $PYTHONHOME = s:python3home
-"    endif
-"    " Add end
-"    call jedi#force_py_version(major_version)
-"endfunction
-"augroup vim-pyenv-custom-augroup
-"    autocmd! *
-"    autocmd User vim-pyenv-activate-post   call s:jedi_auto_force_py_version()
-"    autocmd User vim-pyenv-deactivate-post call s:jedi_auto_force_py_version()
-"augroup End
-" vim-pyenvのautocmd周りの設定終了
-
-"call dein#add('lambdalisue/vim-pyenv', {
-"    \   'on_ft' : [
-"    \       'python',
-"    \   ],
-"    \   })
-
-"call dein#add('davidhalter/jedi-vim', {
-"    \   'build' : 'git submodule update --init',
-"    \   'on_ft' : [
-"    \       'python',
-"    \   ],
-"    \   'on_source' : [
-"    \       'vim-pyenv',
-"    \   ],
-"    \   })
