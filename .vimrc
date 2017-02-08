@@ -1,152 +1,201 @@
-" PATHの自動更新関数
-" | 指定された path が $PATH に存在せず、ディレクトリとして存在している場合
-" | のみ $PATH に加える
-function! IncludePath(path)
-  " define delimiter depends on platform
-  if has('win16') || has('win32') || has('win64')
-    let delimiter = ";"
-  else
-    let delimiter = ":"
-  endif
-  let pathlist = split($PATH, delimiter)
-  if isdirectory(a:path) && index(pathlist, a:path) == -1
-    let $PATH=a:path.delimiter.$PATH
-  endif
-endfunction
-
-
-"NeoBundle Scripts-----------------------------
+"#####deinの設定#####
 if &compatible
-  set nocompatible               " Be iMproved
+    set nocompatible
 endif
 
-" Required:
-set runtimepath+=/Users/masakikozuki/.vim/bundle/neobundle.vim/
+let g:dein_dir = expand('~/.vim/dein')
+let s:dein_repo_dir = g:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-" Required:
-call neobundle#begin(expand('/Users/masakikozuki/.vim/bundle'))
+if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+endif
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-" Add or remove your Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-" jedi-vimを追加
-NeoBundle 'davidhalter/jedi-vim'
-" markdownの設定
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'tyru/open-browser.vim'
+if dein#load_state(g:dein_dir)
+    let s:toml = g:dein_dir . '/dein.toml'
+    let s:lazy_toml = g:dein_dir . '/dein_lazy.toml'
 
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+    call dein#begin(expand('~/.vim/dein'), [$MYVIMRC,s:toml])
 
-" Required:
-call neobundle#end()
+    " TOMLファイルにpluginを記述
+    call dein#load_toml(s:toml, {'lazy': 0})
+    call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-" Required:
+    call dein#end()
+    call dein#save_state()
+endif
+
+" 未インストールを確認
+if dein#check_install()
+    call dein#install()
+endif
+
+"#####neocomplete#####
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_ignore_case = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_auto_close_preview = 0
+set completeopt-=preview
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#keyword_patterns._ = '\h\w*'
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><CR> pumvisible() ? "\<C-y>": "\<CR>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+"#####Unite.vim#####
+nnoremap [unite] <Nop>
+nmap <Space>f [unite]
+nnoremap <silent> [unite]f :Unite<Space>file<CR>
+nnoremap <silent> [unite]n :Unite<Space>file/new<CR>
+
 filetype plugin indent on
 
-" pyenv処理用にvim-pyenvを追加
-NeoBundleLazy "lambdalisue/vim-pyenv", {
-        \ "depends":['davidhalter/jedi-vim'],
-        \ "autoload":{
-        \   "filetypes":["python", "python3"]
-        \   }}
+"#####kaoriya#####
+if has('kaoriya')
+    set noundofile
+    let g:no_vimrc_example=0
+    let g:vimrc_local_finish=1
+    let g:gvimrc_local_finish=1
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
-
-"-------------------
-"" vim settings
-"-------------------
-"" Theme
-syntax enable
-set background=dark
-colorscheme molokai 
-
-"" 新しい行のインデントを現在の行と同じにする
-set autoindent
-
-" バックアップのディレクトリを指定する
-set backupdir=$HOME/.vim/backup
-
-" vi互換をオフにする
-set nocompatible
-
-" 不可視文字を表示
-set list
-
-" スワップファイル用のディレクトリを指定する
-set directory=$HOME/.vim/backup
-
-" タブの代わりに空白文字を指定する
-set expandtab
-
-" タブ幅の指定
-set tabstop=4
-
-" 行番号を表示する
-set number
-
-" 閉じ括弧が入力された時に対応する括弧を強調する
-set showmatch
-
-" 新しい行で高度な自動インデント
-set smarttab
-
-" C++ 補完
-let g:cpp_class_scope_highlight=1
-let g:cpp_experimental_simple_template_highlight=1
-let g:cpp_experimental_template_highlight=1
-let g:cpp_concepts_highlight=1
-let c_no_curly_error=1
-
-" To use vim-pyenv with jedi-vim
-if jedi#init_python()
-        function! s:jedi_auto_force_py_version() abort
-                let major_version = pyenv#python#get_internal_version()
-                call jedi#force_py_version(major_version)
-        endfunction
-        augroup vim-pyenv-custom-augroup
-                autocmd! *
-                autocmd User vim-pyenv-activate-post call s:jedi_auto_force_py_version()
-                autocmd User vim-pyenv-deactivate-post call s:jedi_auto_force_py_version()
-        augroup end
+    "$VIM/plugins/kaoriya/autodate.vim
+    let plugin_autodate_disable  = 1
+    "$VIM/plugins/kaoriya/cmdex.vim
+    let plugin_cmdex_disable     = 1
+    "$VIM/plugins/kaoriya/dicwin.vim
+    let plugin_dicwin_disable    = 1
+    "$VIMRUNTIME/plugin/format.vim
+    let plugin_format_disable    = 1
+    "$VIM/plugins/kaoriya/hz_ja.vim
+    let plugin_hz_ja_disable     = 1
+    "$VIM/plugins/kaoriya/scrnmode.vim
+    let plugin_scrnmode_disable  = 1
+    "$VIM/plugins/kaoriya/verifyenc.vim
+    let plugin_verifyenc_disable = 1
 endif
 
-" vim-goの設定
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <leader>i <Plug>(go-info)
+"#####初期設定#####
+syntax on "コードの色分け
+" colorscheme solarized " カラースキーム
+"#####表示設定#####
+set autoindent "新しい行のインデントを現在行と同じにする
+set expandtab "タブで挿入する文字をスペースに
+set number "行番号を表示する
+set title "編集中のファイル名を表示
+"set cursorline "カーソルのある行にアンダーラインを引く
+set showmatch "括弧入力時の対応する括弧を表示
+set tabstop=4 "インデントをスペース4つ分に設定
+set shiftwidth=4 "自動インデントの幅
+set smartindent "オートインデント
+set smarttab "新しい行を作った時に高度な自動インデント
+set clipboard=unnamed,autoselect "OSのクリッポボードと連携
+set matchpairs& matchpairs+=<:> "対応カッコに＜＞を追加
+set backspace=eol,indent,start
 
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+"#####キーバインド#####
+"ここをコピれば、他のキーバインドにも対応出来る
+"inoremap <Space>j <Esc>
+noremap <Space>o o<Esc>
+noremap <Space>p o<Esc>p
+noremap <Space>h ^
+noremap <Space>l $
 
-au FileType go :highlight goErr cterm=bold ctermfg=214
-au FileType go :match goErr /\<err\>/
+"#####余計なファイル設定#####
+set noswapfile "スワップファイルを作らない
+set nobackup "バックアップを作成しない
+set viminfo= "viminfoを作成しない
 
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_autosave = 1
+"#####検索設定#####
+set ignorecase "大文字/小文字の区別なく検索する
+set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
+set wrapscan "検索時に最後まで行ったら最初に戻る
 
-let g:neocomplete#sources#dictionary#dictionaries = {
-\   'ruby':$HOME . '/dicts/ruby.dict',
-\ }
+"#####python設定#####
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
 
-" .mdファイルに対応できるように
-au BufRead, BufNewFile *.md set filetype=markdown
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+" let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+
+"#####Go設定#####
+" vim-go
+"" mapping
+""" go runのキーマッピング
+au FileType go nmap gr (go-run)
+""" go testのキーマッピング
+au FileType go nmap gt (go-test)
+"" highlight
+let g:go_hightlight_functions = 1
+let g:go_hightlight_methods = 1
+let g:go_hightlight_structs = 1
+let g:go_hightlight_interfaces = 1
+let g:go_hightlight_operators = 1
+let g:go_hightlight_build_constraints = 1
+"" GoFmt時にインポートするパッケージを整理(GoFmtはファイル書き込み時に自動的に実行される)
+let g:go_fmt_command = "goimports"
+
+"#####Python設定#####
+"let s:python2home = $PYENV_ROOT . '/versions/2.7.12'
+"let s:python2dll  = $PYENV_ROOT . '/versions/2.7.12/lib/libpython2.7.dylib'
+"let s:python3home = $PYENV_ROOT . '/versions/3.5.2'
+"let s:python3dll  = $PYENV_ROOT . '/versions/3.5.2/lib/libpython3.5ma.dylib'
+
+"&pythonthreedll = s:python3dll
+"$PYTHONHOME     = s:python3home
+"execute 'python3 import sys'
+
+"&pythondll  = s:python2dll
+"$PYTHONHOME = s:python2home
+"execute 'python import sys'
+
+" vim-pyenvのautocmd周りの設定開始
+"function! s:jedi_auto_force_py_version() abort 
+""   let major_version = pyenv#python#get_internal_major_version()
+"  " Add start
+"    if major_version == 2
+"        let $PYTHONHOME = s:python2home
+"    elseif major_version == 3
+"        let $PYTHONHOME = s:python3home
+"    endif
+"    " Add end
+"    call jedi#force_py_version(major_version)
+"endfunction
+"augroup vim-pyenv-custom-augroup
+"    autocmd! *
+"    autocmd User vim-pyenv-activate-post   call s:jedi_auto_force_py_version()
+"    autocmd User vim-pyenv-deactivate-post call s:jedi_auto_force_py_version()
+"augroup End
+" vim-pyenvのautocmd周りの設定終了
+
+"call dein#add('lambdalisue/vim-pyenv', {
+"    \   'on_ft' : [
+"    \       'python',
+"    \   ],
+"    \   })
+
+"call dein#add('davidhalter/jedi-vim', {
+"    \   'build' : 'git submodule update --init',
+"    \   'on_ft' : [
+"    \       'python',
+"    \   ],
+"    \   'on_source' : [
+"    \       'vim-pyenv',
+"    \   ],
+"    \   })
