@@ -1,0 +1,70 @@
+# Python
+[[plugins]]
+repo  = 'davidhalter/jedi-vim'
+on_ft = 'python'
+
+[[plugins]]
+repo  = 'lambdalisue/vim-pyenv'
+depends = 'davidhalter/jedi-vim'
+merged = 0
+
+[[plugins]]
+repo  = 'andviro/flake8-vim'
+on_ft = 'python'
+
+# Ruby
+[[plugins]]
+repo  = 'vim-ruby/vim-ruby'
+on_ft = 'ruby'
+
+# Ruby on Rails
+[[plugins]]
+repo  = 'tpope/vim-rails'
+on_ft = 'ruby'
+
+# TOML
+[[plugins]]
+repo  = 'cespare/vim-toml'
+on_ft = 'toml'
+
+# C++
+[[plugins]]
+repo  = 'justmao945/vim-clang'
+on_ft = ['c', 'cpp']
+
+# markdown
+[[plugins]]
+repo  = 'rcmdnk/vim-markdown'
+on_ft = ['markdown', 'mkd']
+hook_add = '''
+    let g:vim_markdown_fromtmttr = 1
+    let g:vim_markdown_math = 1
+'''
+
+# markdown preview
+[[plugins]]
+repo = 'godlygeek/tabular'
+
+# Go
+[[plugins]]
+repo  = 'fatih/vim-go'
+on_ft = ['go']
+
+# TOML
+[[plugins]]
+repo  = 'cespare/vim-toml'
+on_ft = 'toml'
+
+# YAML
+[[plugins]]
+repo  = 'stephpy/vim-yaml'
+on_ft = 'yaml'
+
+# JSON
+repo  = 'elzr/vim-json'
+on_ft = 'json'
+
+# 一般設定
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+insert = 1

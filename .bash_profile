@@ -1,6 +1,6 @@
 # execute .bashrc
 if [ -f ~/.bashrc ]; then
-        . ~/.bashrc
+    . ~/.bashrc
 fi
 
 # python
@@ -28,7 +28,7 @@ if [ -f /usr/local/etc/bash_completion ]; then
 fi
 
 git_branch() {
-        echo $(git branch --no-color 2>/dev/null | sed -ne "s/^\* \(.*)$/\1/p")
+    echo $(git branch --no-color 2>/dev/null | sed -ne "s/^\* \(.*)$/\1/p")
 }
 
 # Go lang
@@ -40,3 +40,12 @@ source /usr/local/etc/bash_completion.d/git-completion.bash
 
 GIT_PS1_SHOWDIRTYSTATE=true
 export PS1='\W:\[\033[31m\]$(__git_ps1 [%s])\[\033[34m\] $ \033[37m\]'
+
+# neo-vim 
+export XDG_CONFIG_HOME=~/.config
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/masakikozuki/google-cloud-sdk/path.bash.inc' ]; then source '/Users/masakikozuki/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/masakikozuki/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/masakikozuki/google-cloud-sdk/completion.bash.inc'; fi

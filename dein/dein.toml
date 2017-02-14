@@ -1,0 +1,52 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo  = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+# git branch
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# ステータスライン
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+    let g:lightline = {
+    \   'colorscheme': 'solarized',
+    \   'active': {
+    \       'left': [ [ 'mode', 'paste' ],
+    \                 [ 'fugitive', 'filename', 'modified' ] ]
+    \   },
+    \   'component': {
+    \       'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
+    \       'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}'
+    \   },
+    \   'component_visible_condition': {
+    \       'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
+    \       'modified': '(&filetype!="help"&&(&modified||!&modifiable))'
+    \   },
+    \   'separator': { 'lfet': '>', 'right': '<' },
+    \   'subseparator': { 'left': '>', 'right': '<' }
+    \}
+'''
+
+# neocomplete
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+on_i = 1
+
+# QuickRun
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+# カラースキーム
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
